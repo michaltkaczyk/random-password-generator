@@ -2,26 +2,33 @@ import random
 import string
 
 def generate_password(length, **cases):
+    password_starter = []
     password_dough = []
-
+    
     positive_cases = {key: value for key, value in cases.items() if value}
     
     if len(positive_cases) == 0:
         raise Exception("You should include at least one type of characters.")
 
-    # Chosing equal number of elements from each to assure equal expected share of characters of different size
+    # Chosing equal number of elements from each to assure equal expected share of characters of different type
+    # Adding a single element of each type to assure that the password contains at least one of each type of characters
     for case in positive_cases.keys():
         if case == "lowercase":
             password_dough += random.choices(string.ascii_lowercase, k = length)
+            password_starter += random.choice(string.ascii_lowercase)
         if case == "uppercase":
             password_dough += random.choices(string.ascii_uppercase, k = length)
+            password_starter += random.choice(string.ascii_uppercase)
         if case == "numbers":
             password_dough += random.choices(string.digits, k = length)
+            password_starter += random.choice(string.digits)
         if case == "symbols":
             password_dough += random.choices(string.punctuation, k = length)
+            password_starter += random.choice(string.punctuation)
 
-    random.shuffle(password_dough)
-    password = "".join(password_dough[:length])
+    password_elements = password_starter + random.choices(password_dough, k = length - len(password_starter))
+    random.shuffle(password_elements)
+    password = "".join(password_elements)
 
     return password
 
