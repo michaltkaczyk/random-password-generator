@@ -5,6 +5,9 @@ def generate_password(length, **cases):
     password_dough = []
 
     positive_cases = {key: value for key, value in cases.items() if value}
+    
+    if len(positive_cases) == 0:
+        raise Exception("You should include at least one type of characters.")
 
     for case in positive_cases.keys():
         if case == "lowercase":
@@ -36,7 +39,13 @@ def ask(mode_name):
     return use_mode
 
 def main():
-    length = int(input("How long should the password be: "))
+    length = input("How long should the password be: ")
+    try:
+        length = int(length)
+    except:
+        print("Provided password length should be an integer.")
+        return None
+
     lowercase = ask("lowercase characters")
     uppercase = ask("uppercase characters")
     numbers = ask("numbers")
