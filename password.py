@@ -45,8 +45,8 @@ def main():
         length,
         lowercase = lowercase,
         uppercase = uppercase,
-        numbers=numbers,
-        symbols=symbols)
+        numbers = numbers,
+        symbols = symbols)
     print(password)
 
 if __name__ == '__main__':
