@@ -9,19 +9,16 @@ def generate_password(length, **cases):
     if len(positive_cases) == 0:
         raise Exception("You should include at least one type of characters.")
 
+    # Chosing equal number of elements from each to assure equal expected share of characters of different size
     for case in positive_cases.keys():
         if case == "lowercase":
-            for character in range(length):
-                password_dough += random.choice(string.ascii_lowercase)
+            password_dough += random.choices(string.ascii_lowercase, k = length)
         if case == "uppercase":
-            for character in range(length):
-                password_dough += random.choice(string.ascii_uppercase)
+            password_dough += random.choices(string.ascii_uppercase, k = length)
         if case == "numbers":
-            for character in range(length):
-                password_dough += random.choice(string.digits)
+            password_dough += random.choices(string.digits, k = length)
         if case == "symbols":
-            for character in range(length):
-                password_dough += random.choice(string.punctuation)
+            password_dough += random.choices(string.punctuation, k = length)
 
     random.shuffle(password_dough)
     password = "".join(password_dough[:length])
