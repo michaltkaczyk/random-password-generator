@@ -1,3 +1,6 @@
+MIN_PASSWORD_LENGTH = 4
+MAX_PASSWORD_LENGTH = 64
+
 import random
 import string
 
@@ -8,7 +11,8 @@ def generate_password(length, **cases):
     positive_cases = {key: value for key, value in cases.items() if value}
     
     if len(positive_cases) == 0:
-        raise Exception("You should include at least one type of characters.")
+        print("You should include at least one type of characters.")
+        exit()
 
     # Chosing equal number of elements from each to assure equal expected share of characters of different type
     # Adding a single element of each type to assure that the password contains at least one of each type of characters
@@ -42,24 +46,40 @@ def ask(mode_name):
 
     return use_mode
 
-def main():
+def ask_length():
     length = input("How long should the password be: ")
+
     try:
         length = int(length)
-    except:
+    except ValueError:
         print("Provided password length should be an integer.")
-        return None
+        exit()
+
+    if length < MIN_PASSWORD_LENGTH:
+        print("Provided password length should be at least {} characters long.".format(MIN_PASSWORD_LENGTH))
+        exit()
+
+    if length > MAX_PASSWORD_LENGTH:
+        print("Provided password length can't be longer than {} characters.".format(MAX_PASSWORD_LENGTH))
+        exit()
+
+    return length
+
+def main():
+    length = ask_length()
 
     lowercase = ask("lowercase characters")
     uppercase = ask("uppercase characters")
     numbers = ask("numbers")
     symbols = ask("symbols")
+
     password = generate_password(
         length,
         lowercase = lowercase,
         uppercase = uppercase,
         numbers = numbers,
         symbols = symbols)
+    
     print(password)
 
 if __name__ == '__main__':
